@@ -20,6 +20,7 @@ Lint/SafeNavigationWithEmpty:
 
 Metrics/BlockLength:
   Exclude:
+    - "*.gemspec"
     - spec/**/*.rb
 
 Style/Documentation:
