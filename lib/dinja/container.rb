@@ -9,7 +9,7 @@ module Dinja
     end
 
     def register(key, &block)
-      raise DependencyAlreadyRegistered, "Dependency already registered: #{key}" if dependencies[key]
+      raise DependencyAlreadyRegistered, "Dependency already registered: #{key}" if dependencies.key?(key)
 
       register!(key, &block)
     end
@@ -19,7 +19,7 @@ module Dinja
     end
 
     def resolve(key, *args, &block)
-      return dependencies[key].call(*args, &block) if dependencies[key]
+      return dependencies[key].call(*args, &block) if dependencies.key?(key)
 
       raise DependencyNotRegistered, "Dependency not registered: #{key}"
     end
