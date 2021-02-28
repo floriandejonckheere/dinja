@@ -12,14 +12,20 @@ RSpec.describe Dinja::Container do
       expect { container.register(:foo) { dependency } }.to raise_error Dinja::Container::DependencyAlreadyRegistered
     end
 
+    it "registers a dependency" do
+      container.register(:foo) { dependency }
+    end
+  end
+
+  describe "#register!" do
     it "does not raise when forcing dependency registration" do
       container.register(:foo) { dependency }
 
-      expect { container.register("foo", force: true) { dependency } }.not_to raise_error
+      expect { container.register!("foo") { dependency } }.not_to raise_error
     end
 
     it "registers a dependency" do
-      container.register(:foo) { dependency }
+      container.register!(:foo) { dependency }
     end
   end
 

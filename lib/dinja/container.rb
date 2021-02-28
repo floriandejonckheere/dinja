@@ -8,9 +8,13 @@ module Dinja
       @dependencies = {}
     end
 
-    def register(key, force: false, &block)
-      raise DependencyAlreadyRegistered, "Dependency already registered: #{key}" unless force || !dependencies[key]
+    def register(key, &block)
+      raise DependencyAlreadyRegistered, "Dependency already registered: #{key}" if dependencies[key]
 
+      register!(key, &block)
+    end
+
+    def register!(key, &block)
       dependencies[key] = block
     end
 
