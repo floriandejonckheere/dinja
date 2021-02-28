@@ -18,6 +18,10 @@ Lint/AssignmentInCondition:
 Lint/SafeNavigationWithEmpty:
   Enabled: false
 
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*.rb
+
 Style/Documentation:
   Enabled: false
 
