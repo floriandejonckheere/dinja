@@ -29,8 +29,32 @@ RSpec.describe Dinja::Container do
     end
   end
 
+  describe "#lookup" do
+    it "raises when dependency not registered" do
+      expect { container.lookup("foo") }.to raise_error Dinja::Container::DependencyNotRegistered
+    end
+
+    it "looks up a dependency" do
+      container.register("foo", &dependency)
+
+      expect(container.lookup("foo").call("bar")).to eq "rab"
+    end
+  end
+
+  describe "#lookup!" do
+    it "does not raise when dependency not registered" do
+      expect { container.lookup!("foo") }.not_to raise_error
+    end
+
+    it "looks up a dependency" do
+      container.register("foo", &dependency)
+
+      expect(container.lookup!("foo").call("bar")).to eq "rab"
+    end
+  end
+
   describe "#resolve" do
-    it "raises when dependency does not exist" do
+    it "raises when dependency not registered" do
       expect { container.resolve("foo") }.to raise_error Dinja::Container::DependencyNotRegistered
     end
 
@@ -42,7 +66,7 @@ RSpec.describe Dinja::Container do
   end
 
   describe "#resolve!" do
-    it "does not raise when quietly resolving dependency" do
+    it "does not raise when dependency not registered" do
       expect { container.resolve!("foo", quiet: true) }.not_to raise_error
     end
 

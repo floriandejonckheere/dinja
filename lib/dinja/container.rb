@@ -31,6 +31,26 @@ module Dinja
       dependencies[key] = block
     end
 
+    # Look up a dependency without resolving it
+    #
+    # @param [String] key The unique name under which the dependency was registered
+    #
+    # @raise [DependencyNotRegistered] If the dependency was not registered
+    #
+    def lookup(key)
+      raise DependencyNotRegistered, "Dependency not registered: #{key}" unless dependencies.key?(key)
+
+      dependencies[key]
+    end
+
+    # Look up a dependency without resolving it
+    #
+    # @param [String] key The unique name under which the dependency was registered
+    #
+    def lookup!(key)
+      dependencies[key]
+    end
+
     # Resolve a dependency
     #
     # @param [String] key The unique key under which the dependency was registered
@@ -40,9 +60,7 @@ module Dinja
     # @raise [DependencyNotRegistered] If the dependency was not registered
     #
     def resolve(key, *args, &block)
-      return dependencies[key].call(*args, &block) if dependencies.key?(key)
-
-      raise DependencyNotRegistered, "Dependency not registered: #{key}"
+      lookup(key).call(*args, &block)
     end
 
     # Resolve a dependency
@@ -52,7 +70,7 @@ module Dinja
     # @param [Proc] &block The block to pass when resolving the dependency
     #
     def resolve!(key, *args, &block)
-      dependencies[key]&.call(*args, &block)
+      lookup!(key)&.call(*args, &block)
     end
 
     # Raised when trying to overwrite a dependency that was already registered

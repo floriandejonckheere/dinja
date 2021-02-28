@@ -38,13 +38,23 @@ my_dependency = container.resolve("my_dependency", "foobar")
 puts my_dependency.name
 # => "foobar"
 
-# container.resolve will raise when trying to resolve unregistered dependencies
-# Use container.resolve! to resolve unregistered dependencies without raising (dangerous)
+# Look up a dependency (without resolving)
+my_dependency = container.lookup("my_dependency")
+puts my_dependency.call("foobar")
+# => #<OpenStruct name="foobar">
+
+# Container#resolve will raise when trying to resolve unregistered dependencies
+# Use Container#resolve! to resolve unregistered dependencies without raising (dangerous)
 container.resolve("another_dependency")
 # => DependencyNotRegistered
 
-# container.register will raise when trying to overwrite registered dependencies
-# Use container.register! to overwrite dependencies (dangerous)
+# Container#lookup will raise when trying to look up unregistered dependencies
+# Use Container#lookup! to look up unregistered dependencies without raising (dangerous)
+container.lookup("another_dependency")
+# => DependencyNotRegistered
+
+# Container#register will raise when trying to overwrite registered dependencies
+# Use Container#register! to overwrite dependencies (dangerous)
 container.register("my_dependency") { |name| OpenStruct.new(name: name) }
 ```
 
