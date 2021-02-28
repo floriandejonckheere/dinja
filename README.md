@@ -19,15 +19,32 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install din
-
-## Configuration
-
-TODO: configuration
+    $ gem install dinja
 
 ## Usage
 
-TODO: usage
+```ruby
+# Instantiate a dependency injection container
+container = Dinja::Container.new
+
+# Register a dependency
+container.register("my_dependency") { |name| OpenStruct.new(name: name) }
+
+# Resolve a dependency
+my_dependency = container.resolve("my_dependency", "foobar")
+
+puts my_dependency.name
+# => "foobar"
+
+# container.resolve will raise when trying to resolve unregistered dependencies
+# Use container.resolve! to resolve unregistered dependencies without raising (dangerous)
+container.resolve("another_dependency")
+# => DependencyNotRegistered
+
+# container.register will raise when trying to overwrite registered dependencies
+# Use container.register! to overwrite dependencies (dangerous)
+container.register("my_dependency") { |name| OpenStruct.new(name: name) }
+```
 
 ## Development
 
