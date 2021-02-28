@@ -7,49 +7,49 @@ RSpec.describe Dinja::Container do
 
   describe "#register" do
     it "raises when dependency already registered" do
-      container.register(:foo) { dependency }
+      container.register("foo") { dependency }
 
-      expect { container.register(:foo) { dependency } }.to raise_error Dinja::Container::DependencyAlreadyRegistered
+      expect { container.register("foo") { dependency } }.to raise_error Dinja::Container::DependencyAlreadyRegistered
     end
 
     it "registers a dependency" do
-      container.register(:foo) { dependency }
+      container.register("foo") { dependency }
     end
   end
 
   describe "#register!" do
     it "does not raise when forcing dependency registration" do
-      container.register(:foo) { dependency }
+      container.register("foo") { dependency }
 
       expect { container.register!("foo") { dependency } }.not_to raise_error
     end
 
     it "registers a dependency" do
-      container.register!(:foo) { dependency }
+      container.register!("foo") { dependency }
     end
   end
 
   describe "#resolve" do
     it "raises when dependency does not exist" do
-      expect { container.resolve(:foo) }.to raise_error Dinja::Container::DependencyNotRegistered
+      expect { container.resolve("foo") }.to raise_error Dinja::Container::DependencyNotRegistered
     end
 
     it "resolves a dependency" do
-      container.register(:foo) { dependency }
+      container.register("foo") { dependency }
 
-      expect(container.resolve(:foo).call("bar")).to eq "rab"
+      expect(container.resolve("foo").call("bar")).to eq "rab"
     end
   end
 
   describe "#resolve!" do
     it "does not raise when quietly resolving dependency" do
-      expect { container.resolve!(:foo, quiet: true) }.not_to raise_error
+      expect { container.resolve!("foo", quiet: true) }.not_to raise_error
     end
 
     it "resolves a dependency" do
-      container.register(:foo) { dependency }
+      container.register("foo") { dependency }
 
-      expect(container.resolve!(:foo).call("bar")).to eq "rab"
+      expect(container.resolve!("foo").call("bar")).to eq "rab"
     end
   end
 end
