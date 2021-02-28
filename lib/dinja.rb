@@ -14,9 +14,6 @@ module Dinja
     def setup
       @loader = Zeitwerk::Loader.for_gem
 
-      # Register inflections
-      require root.join("config/inflections.rb")
-
       loader.setup
       loader.eager_load
     end
