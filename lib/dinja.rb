@@ -2,6 +2,7 @@
 
 require "zeitwerk"
 
+# Simple dependency injection
 module Dinja
   class << self
     # Code loader instance
@@ -13,6 +14,9 @@ module Dinja
 
     def setup
       @loader = Zeitwerk::Loader.for_gem
+
+      # Do not eager load Railtie
+      loader.do_not_eager_load(root.join("lib/dinja/railtie.rb"))
 
       loader.setup
       loader.eager_load
