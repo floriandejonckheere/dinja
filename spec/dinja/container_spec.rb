@@ -34,14 +34,22 @@ RSpec.describe Dinja::Container do
       expect { container.resolve(:foo) }.to raise_error Dinja::Container::DependencyNotRegistered
     end
 
+    it "resolves a dependency" do
+      container.register(:foo) { dependency }
+
+      expect(container.resolve(:foo).call("bar")).to eq "rab"
+    end
+  end
+
+  describe "#resolve!" do
     it "does not raise when quietly resolving dependency" do
-      expect { container.resolve(:foo, quiet: true) }.not_to raise_error
+      expect { container.resolve!(:foo, quiet: true) }.not_to raise_error
     end
 
     it "resolves a dependency" do
       container.register(:foo) { dependency }
 
-      expect(container.resolve(:foo).call("bar")).to eq "rab"
+      expect(container.resolve!(:foo).call("bar")).to eq "rab"
     end
   end
 end

@@ -18,10 +18,14 @@ module Dinja
       dependencies[key] = block
     end
 
-    def resolve(key, *args, quiet: false, &block)
+    def resolve(key, *args, &block)
       return dependencies[key].call(*args, &block) if dependencies[key]
 
-      raise DependencyNotRegistered, "Dependency not registered: #{key}" unless quiet
+      raise DependencyNotRegistered, "Dependency not registered: #{key}"
+    end
+
+    def resolve!(key, *args, &block)
+      dependencies[key]&.call(*args, &block)
     end
 
     class DependencyAlreadyRegistered < StandardError; end
