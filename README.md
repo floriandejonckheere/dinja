@@ -94,7 +94,7 @@ module MyGem
   def container
     @container ||= Dinja::Container.new 
   end
-  
+
   def setup
     # ...other stuff here
 
@@ -121,6 +121,46 @@ my_dependency = MyGem.container.resolve("my_dependency", "foobar")
 
 my_dependency.name
 # => "foobar"
+```
+
+### RSpec
+
+If you need to mock resolution calls to a container, you can do as following.
+
+In `spec/rails_helper.rb` or `spec/spec_helper.rb`:
+
+```ruby
+require "dinja/rspec"
+include Dinja::RSpec
+```
+
+In `config/dependencies.rb`:
+
+```ruby
+register("my_service") do |name|
+  OpenStruct.new(name: name)
+end
+```
+
+In `spec/my_app/my_model_spec.rb`:
+
+```ruby
+RSpec.describe MyApp::MyModel do
+  subject(:my_model) { described_class.new }
+
+  it "calls my service" do
+    my_service = dinja_mock!("my_service")
+
+    allow(my_service)
+      .to receive(:call)
+      .and_return true
+
+    my_model.call_service
+
+    expect(my_service).to have_received(:call)
+  end
+end
+
 ```
 
 ## Development

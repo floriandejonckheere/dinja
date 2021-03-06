@@ -15,8 +15,12 @@ module Dinja
     def setup
       @loader = Zeitwerk::Loader.for_gem
 
-      # Do not eager load Railtie
+      # Register inflections
+      require root.join("config/inflections.rb")
+
+      # Do not eager load integrations
       loader.do_not_eager_load(root.join("lib/dinja/railtie.rb"))
+      loader.do_not_eager_load(root.join("lib/dinja/rspec.rb"))
 
       loader.setup
       loader.eager_load
