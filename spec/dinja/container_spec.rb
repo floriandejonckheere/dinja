@@ -63,6 +63,18 @@ RSpec.describe Dinja::Container do
 
       expect(container.resolve("foo").call("bar")).to eq "rab"
     end
+
+    it "resolves a dependency with arguments" do
+      container.register("foo") { |*args| dependency.call(args) }
+
+      expect(container.resolve("foo", "bar", "baz")).to eq %w(baz bar)
+    end
+
+    it "resolves a dependency with keyword arguments" do
+      container.register("foo") { |**args| dependency.call(args.to_a) }
+
+      expect(container.resolve("foo", bar: "baz", bat: "bak")).to eq [[:bat, "bak"], [:bar, "baz"]]
+    end
   end
 
   describe "#resolve!" do
@@ -74,6 +86,18 @@ RSpec.describe Dinja::Container do
       container.register("foo") { dependency }
 
       expect(container.resolve!("foo").call("bar")).to eq "rab"
+    end
+
+    it "resolves a dependency with arguments" do
+      container.register("foo") { |*args| dependency.call(args) }
+
+      expect(container.resolve!("foo", "bar", "baz")).to eq %w(baz bar)
+    end
+
+    it "resolves a dependency with keyword arguments" do
+      container.register("foo") { |**args| dependency.call(args.to_a) }
+
+      expect(container.resolve!("foo", bar: "baz", bat: "bak")).to eq [[:bat, "bak"], [:bar, "baz"]]
     end
   end
 end

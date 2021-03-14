@@ -59,8 +59,8 @@ module Dinja
     #
     # @raise [DependencyNotRegistered] If the dependency was not registered
     #
-    def resolve(key, *args, &block)
-      lookup(key).call(*args, &block)
+    def resolve(key, *args, **kwargs, &block)
+      lookup(key).call(*args, **kwargs, &block)
     end
 
     # Resolve a dependency
@@ -69,8 +69,8 @@ module Dinja
     # @param [Object] *args The arguments to pass when resolving the dependency
     # @param [Proc] &block The block to pass when resolving the dependency
     #
-    def resolve!(key, *args, &block)
-      lookup!(key)&.call(*args, &block)
+    def resolve!(key, *args, **kwargs, &block)
+      lookup!(key)&.call(*args, **kwargs, &block)
     end
 
     # Raised when trying to overwrite a dependency that was already registered
