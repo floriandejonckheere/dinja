@@ -1,5 +1,10 @@
 # Changelog
 
+## Dinja v2.0.0
+
+- Resolve dependencies with kwargs
+- Drop support for Ruby < 2.7
+
 ## Dinja v1.2.0
 
 - Add RSpec helper
