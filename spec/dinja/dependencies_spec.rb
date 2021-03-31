@@ -4,7 +4,7 @@
 RSpec.describe Dinja::Container do
   subject(:container) { described_class.new }
 
-  before { container.instance_eval File.read(Dinja.root.join("spec/support/dependencies.rb")) }
+  before { container.instance_eval File.read(Dinja.root.join("spec/dependencies.rb")) }
 
   it "resolves simple dependencies" do
     dependency = container.resolve("simple")
