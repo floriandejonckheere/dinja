@@ -6,6 +6,10 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 2.6
 
+Layout/LineLength:
+  Exclude:
+    - spec/**/*.rb
+
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
@@ -22,6 +26,12 @@ Metrics/BlockLength:
   Exclude:
     - "*.gemspec"
     - spec/**/*.rb
+
+RSpec/ExampleLength:
+  Max: 10
+
+RSpec/MultipleExpectations:
+  Enabled: false
 
 Style/Documentation:
   Enabled: false
