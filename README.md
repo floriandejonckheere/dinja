@@ -127,11 +127,14 @@ my_dependency.name
 
 If you need to mock resolution calls to a container, you can do as following.
 
-In `spec/rails_helper.rb` or `spec/spec_helper.rb`:
+In `spec/support/dinja.rb`:
 
 ```ruby
 require "dinja/rspec"
-include Dinja::RSpec
+
+RSpec.configure do |config|
+  config.include Dinja::RSpec
+end
 ```
 
 In `config/dependencies.rb`:
